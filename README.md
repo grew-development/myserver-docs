@@ -4,10 +4,12 @@ This repository contains all information and server configurations for my own de
 I myself am not an expert in this area and<br>
 use this documentation purely for documentation reasons for myself and all those who want to build this server.
 
+I am very happy if you mark and mention me and this reposetory if needed.
+This reposetory is inspired by @Redacks
+
 > [!WARNING]
 > This documentation is not suitable for all use cases and can therefore be adapted or modified according to your needs.
 
-I am very happy if you mark and mention me and this reposetory if needed.
 <br><br>
 # 2. Server Hardware Components: A Breakdown of My Dedicated Server
 ### Server-Provider
