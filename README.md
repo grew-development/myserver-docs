@@ -7,6 +7,8 @@ use this documentation purely for documentation reasons for myself and all those
 I am very happy if you mark and mention me and this reposetory if needed.
 This reposetory is inspired by [@Redacks](https://github.com/redacks)
 
+If you have any optimization ideas or suggestions for improvement, please feel free to open an issue or submit a pull request.
+
 > [!WARNING]
 > This documentation is not suitable for all use cases and can therefore be adapted or modified according to your needs.
 
@@ -37,3 +39,7 @@ I host my server at [Hetzner.com](https://hetzner.com) and so far I am very happ
 <br><br>
 * Operating system
     * Debian 11: Codename "Bullseye"
+
+<br><br>
+# 3. Start with the installation
+For detailed instructions on how to replicate this setup, please refer to [SETUP.md](SETUP.md).
