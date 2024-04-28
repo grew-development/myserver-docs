@@ -17,6 +17,15 @@ Table of contents
         * <a href="#via-putty">Via Putty</a>
     * <a href="#running-and-setup-wizzard">Running and Setup Wizzard</a>
     * <a href="#installing-plugins">Installing Plugins</a>
+6. <a href="#6-adding-vlans">Adding VLAN's</a>
+    * <a href="#create-a-new-vlan">Create a new VLAN</a>
+    * <a href="#adding-and-enable-of-the-new-interface">Adding and enable of the new interface</a>
+    * <a href="#allowing-internet-access">Allowing Internet Access</a>
+        * <a href="#create-alias">Create Alias</a>
+        * <a href="#add-the-rule">Add the Rule</a>
+    * <a href="#allowing-access-to-local-ips-rfc1918--port-redirect--nat">Allowing Access to local IPs (RFC1918) / Port Redirect / NAT</a>
+
+
 
 ## 1. Downloading OPNsense ISO
 * Go to `https://opnsense.org/download/`
@@ -274,9 +283,134 @@ It is possible that opnsense will reboot when finding a larger update.
 After that you can go to the plugins tab in the Firmware options.<br>
 Search for `os-qemu-guest-agent` and install it.
 
-After that go to Lobby/Dashboard and make sure that qemu is running under the service section.<br>
+After that go to Lobby > Dashboard and make sure that qemu is running under the service section.<br>
 If not manually start it.
-
 
 Congratulations you have now installed opnsense on your server and<br>
 configured the necessary things for further use!
+<br><br><br>
+
+
+## 6. Adding VLAN's
+> [!CAUTION]
+> You can now start adding new VLANs. But watch out. After creating your first VLAN the Firewall will get enabled and<br>
+> will lock you out of OPNSense. You can either add a NAT rule to access OPNSense with your public Ip.<br>
+> Not recommended because everyone could access it and you can forget, that its open
+> 
+> Or you can temporary disable the firewall from the OPNSense console. To do so choose option 8 in the OPNSense console.<br>
+> There you can then run `pfctl -d` to disable and `pfctl -e` to enable the firewall.
+> 
+> When disabled you should be able to access it via ssh port tunnel. But after each apply in the OPNSense WebUI it will enable again.
+> Also the VLANs wont have Internet when its disabled and all NAT rules wont apply which should make sense.
+
+Every time you want to split a new service into a new “network”, you need to create a VLAN.<br>
+In my setup, I used VLANs everywhere wherever possible. I got this procedure as a tip from [@Redacks](https://github.com/redacks).
+
+### Create a new VLAN
+* Got to "Interfaces > Other Types > VLAN"
+* Add VLAN by clicking the plus-button
+* Enter the following values
+    * Device:          vlan0.<VLAN_ID>
+    * Parent:          vtnet1 (your VLAN-Network)
+    * VLAN tag:        <VLAN_ID>
+    * Description:     <VLAN_ID>_<NAME_FOR_THE_VLAN>
+* Hit Save and Apply
+
+My Example
+```
+Device: vlan0.102
+Parent: vtnet1
+VLAN tag: 102
+Description: 102_Proxy
+```
+
+### Adding and enable of the new interface
+* Go to "Interfaces > Assignments"
+* Select your new VLAN in "Assign a new interface" you just create
+* Provide a description (Use the same description as above - Example: 102_Proxy)
+* Go to the VLAN tab in the Interfaces options
+* Enable the Interface
+* Select the "IPv4 Configuration Type" from "none" to "Static IPv4"
+* Enter the IP address for Proxmox under “Static IPv4 configuration” (Example: 10.1.2.1)
+* Choose your Subnet to 24
+* Hit Safe and Apply changes
+* Run the Preservation of caution under <a href="#6-adding-vlans">Adding VLANs</a>
+
+### Allowing Internet Access
+#### Create Alias
+Under “Firewall > Aliases” create an “RFC1918” alias.<br>
+RFC1918 is all local network addresses. It should be of type Networks
+* Add a new alias by clicking the plus-button
+* Enter the following values
+    * Name:         RFC1918
+    * Type:         Host(s)
+    * Categories:   none<br>
+    You could create your categories beforehand under "Firewall > Categories" and insert them here.<br>
+    But I'll do that at a later date
+    * Content:      (Select all networks that start with __ followed by the name)
+    * Description:  "Collection of all private IP addresses"
+* Hit Save and Apply
+> [!NOTE]
+> WHEN ADDING A NEW VLAN MAKE SURE TO UPDATE RFC1918
+
+> [!NOTE]
+> I have also added further aliases here. Including for the upcoming VLANS and their IP addresses.<br>
+> I took Davice as the name and entered the IP address of the respective device under Content
+
+#### Add the Rule
+We will use RFC1918 to configure firewall rules for internet access. If you want to give internet access to a vlan but still restrict access to all other internal IPs you can do that with the help of a firewall rule that accepts all connections except if they target RFC1918.
+
+* Go to "Firewall > Rules"
+* Select the VLAN you want to grant internet access
+* Create a new rule if it doesnt already exist by hitting the plus.
+
+We want to allow everything except if the destination is RFC1918.
+
+* Select RFC1918 as a destination
+* Enable Destination / Invert.
+* Select the Category (optional)
+* Safe and Apply Changes
+* Run the Preservation of caution under <a href="#6-adding-vlans">Adding VLANs</a>
+
+### Allowing Access to local IPs (RFC1918) / Port Redirect / NAT
+> [!NOTE]
+> If you want to give a certain VLAN access to another device in a different VLAN<br>
+> NAT is your best friend.
+>
+> If you want to give access to the whole VLAN and not only a singular IP / Device<br>
+> you will have to do so in Firewall Rules not NAT.
+>
+> When defining rules for accessing opnsense itself<br>
+> you should use 127.0.0.1 (localhost) as a redirect target.
+
+You can create a NAT Rule in "Firewall > NAT > Port Forward".
+* Add a new NAT Rule by clicking the plus-button
+* As a interface you should select where the request is coming from
+* As a Destination you should select which IP it should be allowed to access
+* You also need to specify the port number
+* As Target you will then select the same IP and Port
+* Select the Category (optional)
+* Safe
+<br><br>
+* Safe and Apply Changes (Complete this step once you have added all the rules)
+* Run the Preservation of caution under <a href="#6-adding-vlans">Adding VLANs</a>
+
+My Example: Proxy -> Proxmox 
+```
+* Interface: Proxy VLAN
+* Destination: 10.10.10.0 / 31
+* Destination Port from: (Other) / 8006
+* Destination Port to: (Other) / 8006
+* Redirect Target IP: 10.10.10.0
+* Redirect Target Port: 8006
+```
+
+My Example: Proxy -> Opnsense
+```
+* Interface: Proxy VLAN
+* Destination: VLAN Address
+* Destination Port from: Your Opnsense WebPort (Example: 9443)
+* Destination Port to: Your Opnsense WebPort (Example: 9443)
+* Redirect Target IP: 127.0.0.1
+* Redirect Target Port: Your Opnsense WebPort (Example: 9443)
+```
