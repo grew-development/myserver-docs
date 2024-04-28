@@ -24,7 +24,7 @@ Table of contents
         * <a href="#create-alias">Create Alias</a>
         * <a href="#add-the-rule">Add the Rule</a>
     * <a href="#allowing-access-to-local-ips-rfc1918--port-redirect--nat">Allowing Access to local IPs (RFC1918) / Port Redirect / NAT</a>
-
+<br><br><br>
 
 
 ## 1. Downloading OPNsense ISO
@@ -60,6 +60,7 @@ I left all values that were not specified as they were or were not specified at 
 
 > [!NOTE]
 > Activate Advanced Mode at the bottom of the window
+<br><br>
 
 ### VM Settingvalues
 * General:
@@ -96,11 +97,13 @@ Now confirm the whole thing in the `Confirm area` and click on the `finish` butt
 We will need to add the vlan network now aswell.<br>
 For that you will need to head to the Hardware Section of your opnsense VM in the Proxmox Web Interface.<br>
 Click on "Add" and choose "Network Device" to create a new network device.
+<br><br>
 
 ### Network Device Settingvalues
 * Bridge:                  vmbr1 (VLAN-Network)
 * VLAN Tag:                100 (The same as the VM ID)
 * Multiqueue:              8 (For better performance)
+<br><br>
 
 ### Setup Trunks
 Now we also need to tell Proxmox, that Opnsense acts as a trunk in the VLAN-NET. (If you don't know what a trunk is look it up!)
@@ -115,6 +118,7 @@ Go to the line of net1 and add `trunks=1-4095`. The line should then look someth
 ```
 net1: virtio=92:39:CF:F0:F9:A8,bridge=vmbr1,firewall=1,queues=8,tag=100,trunks=1-4095
 ```
+<br><br>
 
 ### Setup "Start at boot"
 As a final step, if you didn't specify it during installation, you'll want to make sure that "Start at boot" is checked in the VM options.<br>
@@ -161,6 +165,7 @@ shutdown from the console. You can do so by choosing option 5.
 
 After that, you can go to the hardware and remove the installation ISO from the CD/DVD Drive and<br>
 then restart the VM for the next steps.
+<br><br>
 
 ### Configuring WAN for OPNsense
 By default Opnsense will try to setup the WAN with some default values.<br>
@@ -193,6 +198,7 @@ I use the following values within the setting:
 * WebUI HTTPS -> HTTP: No (HTTPS better)
 * Certificate: Yes (self signed tho)
 * Restore defaults: Yes
+<br><br>
 
 ### Accessing WebUI
 You successfully configured opnsense.<br>
@@ -201,6 +207,7 @@ you will see that the login will not work because the IP is not whitelisted.
 
 You can access it via a ssh tunnel tho.<br>
 `ssh -L 443:10.10.10.1:443 root@yourip` You will then be able to access it with https://localhost on your machine and login into opnsense.
+<br><br>
 
 #### Via PowerShell
 Open PowerShell (not as Administrator) and enter the following command: 
@@ -234,6 +241,7 @@ Now do the previous step again. Enter the following command:
 ```
 ssh -L 443:10.10.10.1:443 root@yourip -i <PATH_TO_YOUR_SSH_KEY>
 ```
+<br><br>
 
 #### Via Putty
 Open Putty.exe and type your IP address. Before connecting, add the tunnel we need.
@@ -245,6 +253,7 @@ Open Putty.exe and type your IP address. Before connecting, add the tunnel we ne
 > [!TIP]
 > I did the same for HTTP too.<br>
 > i.e. port 80 added.
+<br><br>
 
 ### Running and Setup Wizzard
 If you have entered everything correctly, you can now connect via `https://localhost` in your Browser. To setup everything important I recommend running the setup wizard. It will configure some important things needed for further configuration
@@ -266,6 +275,7 @@ On the next page you can also just hit next, because we will configure vlans not
 On the next page you can change your root password again if you want to.
 
 After the wizzard finishes it will reload.
+<br><br>
 
 #### Installing Plugins
 As already mentioned i would suggest installing the qemu-agent to allow proxmox qemu to communicate with the VM on when to restart or stop.
@@ -305,6 +315,7 @@ configured the necessary things for further use!
 
 Every time you want to split a new service into a new “network”, you need to create a VLAN.<br>
 In my setup, I used VLANs everywhere wherever possible. I got this procedure as a tip from [@Redacks](https://github.com/redacks).
+<br><br>
 
 ### Create a new VLAN
 * Got to "Interfaces > Other Types > VLAN"
@@ -323,6 +334,7 @@ Parent: vtnet1
 VLAN tag: 102
 Description: 102_Proxy
 ```
+<br><br>
 
 ### Adding and enable of the new interface
 * Go to "Interfaces > Assignments"
@@ -335,6 +347,7 @@ Description: 102_Proxy
 * Choose your Subnet to 24
 * Hit Safe and Apply changes
 * Run the Preservation of caution under <a href="#6-adding-vlans">Adding VLANs</a>
+<br><br>
 
 ### Allowing Internet Access
 #### Create Alias
@@ -356,6 +369,7 @@ RFC1918 is all local network addresses. It should be of type Networks
 > [!NOTE]
 > I have also added further aliases here. Including for the upcoming VLANS and their IP addresses.<br>
 > I took Davice as the name and entered the IP address of the respective device under Content
+<br><br>
 
 #### Add the Rule
 We will use RFC1918 to configure firewall rules for internet access. If you want to give internet access to a vlan but still restrict access to all other internal IPs you can do that with the help of a firewall rule that accepts all connections except if they target RFC1918.
@@ -371,6 +385,7 @@ We want to allow everything except if the destination is RFC1918.
 * Select the Category (optional)
 * Safe and Apply Changes
 * Run the Preservation of caution under <a href="#6-adding-vlans">Adding VLANs</a>
+<br><br>
 
 ### Allowing Access to local IPs (RFC1918) / Port Redirect / NAT
 > [!NOTE]
