@@ -6,6 +6,7 @@ Table of contents
 2. <a href="#2-setting-up-ethernet-interfaces-and-switches">Setting Up Ethernet Interfaces and Switches</a>
     * <a href="#what-did-i-configure">What did i configure?</a>
 3. <a href="#3-install-and-setup-opnsense-my-firewall">Install and Setup OPNsense (my Firewall)</a>
+3. <a href="#4-install-and-setup-docker">Install and Setup Docker</a>
 <br><br><br>
 
 
@@ -103,3 +104,7 @@ I only configured IPv4 you can also setup it for IPv6 if needed
 Refere to [Opnsense Installation](./proxmox/opnsense/SETUP.md)
 <br><br><br>
 
+
+## 4. Install and Setup Docker
+Refere to [Docker Installation](./proxmox/focker/SETUP.md)
+<br><br><br>
