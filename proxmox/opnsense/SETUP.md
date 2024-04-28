@@ -16,6 +16,7 @@ Table of contents
         * <a href="#via-powershell">Via PowerShell</a>
         * <a href="#via-putty">Via Putty</a>
     * <a href="#running-and-setup-wizzard">Running and Setup Wizzard</a>
+    * <a href="#installing-plugins">Installing Plugins</a>
 
 ## 1. Downloading OPNsense ISO
 * Go to `https://opnsense.org/download/`
@@ -257,3 +258,25 @@ On the next page you can change your root password again if you want to.
 
 After the wizzard finishes it will reload.
 
+#### Installing Plugins
+As already mentioned i would suggest installing the qemu-agent to allow proxmox qemu to communicate with the VM on when to restart or stop.
+
+For this go to "System > Firmware > Status".<br>
+Here you can first of all update the system and make sure everything is up to date.<br>
+You should do this regularry because this is your firewall for your server.<br>
+If it cannot find any updates it is possible that you did something wrong while configuration and<br>
+now opnsense has no internet access.
+
+Running the update will redirect you to the Updates tab where you will need to scroll down and<br>
+hit update if it finds any updates.<br>
+It is possible that opnsense will reboot when finding a larger update.
+
+After that you can go to the plugins tab in the Firmware options.<br>
+Search for `os-qemu-guest-agent` and install it.
+
+After that go to Lobby/Dashboard and make sure that qemu is running under the service section.<br>
+If not manually start it.
+
+
+Congratulations you have now installed opnsense on your server and<br>
+configured the necessary things for further use!
