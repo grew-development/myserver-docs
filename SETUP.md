@@ -1,4 +1,13 @@
 # Server Installation
+Table of contents
+
+0. <a href="#0-start-the-rescue-mode">Start the Rescue-Mode</a>
+1. <a href="#1-install-proxmox">Install Proxmox</a>
+2. <a href="#2-setting-up-ethernet-interfaces-and-switches">Setting Up Ethernet Interfaces and Switches</a>
+    * <a href="#what-did-i-configure">What did i configure?</a>
+3. <a href="#3-install-opnsense-my-firewall">Install OPNsense (my Firewall)</a>
+<br><br><br>
+
 
 ## 0. Start the Rescue-Mode
 For the first step of my (new) installation I use the `Rescue-Mode` from [Hetzner.com](https://hetzner.com).<br>
