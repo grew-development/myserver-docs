@@ -4,6 +4,7 @@ Table of contents
 1. <a href="#1-downloading-ct-template">Downloading CT-Template</a>
 2. <a href="#2-creating-ct">Creating CT</a>
     * <a href="#ct-settingvalues">CT Settingvalues</a>
+3. <a href="#3-post-create">Post-Create</a>
 <br><br><br>
 
 
@@ -64,7 +65,10 @@ I left all values that were not specified as they were or were not specified at 
     * DNS servers:      8.8.8.8
 
 After creating the CT we will add the vlan network aswell.
+Now confirm the whole thing in the `Confirm area` and click on the `finish` button.
 <br><br><br>
 
+### 3. Post-Create
+I also enabled `Start at Boot` in the Options of the CT.
 
 
