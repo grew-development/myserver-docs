@@ -6,6 +6,8 @@ Table of contents
     * <a href="#ct-settingvalues">CT Settingvalues</a>
 3. <a href="#3-post-create">Post-Create</a>
 4. <a href="#4-start-the-ct-and-install-docker">Start the CT and Install Docker</a>
+5. <a href="#5-installation-preparation-for-dockge">Installation preparation for Dockge</a>
+6. <a href="#6-configuring-trunks">Configuring Trunks</a>
 <br><br><br>
 
 
@@ -75,11 +77,11 @@ I also enabled `Start at Boot` in the Options of the CT.
 
 
 ### 4. Start the CT and Install Docker
-> [!WARNING]
-> At first create a new VLAN for this docker.<br>
-> My Example ID is now: 101
-> Use the [OPNsense documentation](../opnsense/SETUP.md#6-adding-vlans) for this and access to the internet.<br>
->
+At first create a new VLAN for this docker.<br>
+My Example ID is now: 101
+Use the [OPNsense documentation](../opnsense/SETUP.md#6-adding-vlans) for this and access to the internet.<br>
+
+> [!WARNING]>
 > You need to make sure the container has access to the internet.
 > You can test this by pinging `ping 1.1.1.1` for example.
 > Possibly you would have to turn the firewall back on.
@@ -95,3 +97,31 @@ curl -fsSL https://get.docker.com -o get-docker.sh
 sh get-docker.sh (Shows you the current installation status)
 ```
 You can verify the installation with `docker ps`
+<br><br><br>
+
+
+### 5. Installation preparation for Dockge
+Later we will install dockge as a container manager. To make things easier for later we can already create all files for dockge.<br>
+For example what I like to do is create `/opt/stacks` for dockge with `mkdir /opt/stacks`.<br>
+I also like to add it to my .bashrc with `nano ~/.bashrc` and adding `cd /opt/stacks`.
+<br><br><br>
+
+
+### 6. Configuring Trunks
+You will have to add a new trunk each time you want to connect a new VLAN to the Docker CT.<br>
+For that its simmelar to the OPNSense setup.<br>
+run the Commands in the proxmox-shell. You can edit the config with `vim` or `nano`.
+```
+cd /etc/pve/lxc
+nano 101.conf
+```
+
+We will need to edit the line starting with `net1:` and add all your VLANS as trunks `trunks=102;103;...`<br>
+It should look like this after that
+```
+net1: name=vlan0,bridge=vmbr1,firewall=1,hwaddr=BC:24:11:1C:45:19,type=veth,trunks=102;103;104;110;111
+```
+I added 102-104 and 110, 111 for now, because I will need them for sure.
+
+> [!CAUTION]
+> **MAKE SURE TO ADD NEW VLANS TO TRUNKS WHEN NEEDING A NEW VLAN**<br>
