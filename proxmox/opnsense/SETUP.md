@@ -4,6 +4,10 @@ Table of contents
 1. <a href="#1-downloading-opnsense-iso">Downloading OPNsense ISO</a>
 2. <a href="#2-creating-vm-virtual-maschine">Creating VM (Virtual Maschine)</a>
     * <a href="#vm-settingvalues">VM Settingvalues</a>
+3. <a href="#3-post-create">Post-Create</a>
+    * <a href="#network-device-settingvalues">Network Device Settingvalues</a>
+    * <a href="#setup-trunks">Setup Trunks</a>
+    * <a href="#setup-start-at-boot">Setup "Start at boot"</a>
 
 ## 1. Downloading OPNsense ISO
 * Go to `https://opnsense.org/download/`
@@ -67,6 +71,36 @@ I left all values that were not specified as they were or were not specified at 
 
 After creating the VM we will add the vlan network aswell.
 Now confirm the whole thing in the `Confirm area` and click on the `finish` button.
+<br><br><br>
+
+
+## 3. Post-Create
+We will need to add the vlan network now aswell.<br>
+For that you will need to head to the Hardware Section of your opnsense VM in the Proxmox Web Interface.<br>
+Click on "Add" and choose "Network Device" to create a new network device.
+
+### Network Device Settingvalues
+* Bridge:                  vmbr1 (VLAN-Network)
+* VLAN Tag:                100 (The same as the VM ID)
+* Multiqueue:              8 (For better performance)
+
+### Setup Trunks
+Now we also need to tell Proxmox, that Opnsense acts as a trunk in the VLAN-NET. (If you don't know what a trunk is look it up!)
+
+You can now follow the steps below to edit the vm config from your Proxmox shell, accessible in the Proxmox webui.
+I use `nano` to edit the files here, but you can also use `wim`.
+```
+cd /etc/pve/qemu-server
+nano 100.conf
+```
+Go to the line of net1 and add `trunks=1-4095`. The line should then look something like this:
+```
+net1: virtio=92:39:CF:F0:F9:A8,bridge=vmbr1,firewall=1,queues=8,tag=100,trunks=1-4095
+```
+
+### Setup "Start at boot"
+As a final step, if you didn't specify it during installation, you'll want to make sure that "Start at boot" is checked in the VM options.<br>
+Otherwise, opnsense will not start when the server restarts.
 <br><br><br>
 
 
