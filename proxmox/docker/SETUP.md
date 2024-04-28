@@ -71,5 +71,27 @@ Now confirm the whole thing in the `Confirm area` and click on the `finish` butt
 
 ### 3. Post-Create
 I also enabled `Start at Boot` in the Options of the CT.
+<br><br><br>
 
 
+### 4. Start the CT and Install Docker
+> [!WARNING]
+> At first create a new VLAN for this docker.<br>
+> My Example ID is now: 101
+> Use the [OPNsense documentation](../opnsense/SETUP.md#6-adding-vlans) for this and access to the internet.<br>
+>
+> You need to make sure the container has access to the internet.
+> You can test this by pinging `ping 1.1.1.1` for example.
+> Possibly you would have to turn the firewall back on.
+
+To install docker into the CT you need to startup the container and login.<br>
+To do this we simply use the get Docker script.<br>
+* Run `apt update` and `apt upgrade`
+* Run `apt install curl -y` to install curl
+
+Now you can install docker.
+```
+curl -fsSL https://get.docker.com -o get-docker.sh
+sh get-docker.sh (Shows you the current installation status)
+```
+You can verify the installation with `docker ps`

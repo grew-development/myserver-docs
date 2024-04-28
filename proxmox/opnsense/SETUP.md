@@ -459,7 +459,8 @@ Value:          my Server IP
 * Safe and Apply Changes
 
 > [!WARNING]
-> From now on you can only reach your OPNsense via proxmox.yourip.de:9443
+> From now on you can only reach your OPNsense via proxmox.yourip.de:9443<br>
+> Also make sure in advance that you are forwarding your NAT firewall to the correct port.
 
 > [!NOTE]
 > From here on I'll use Chrome for Proxmox because Firefox has problems with the subdomain and its port.
