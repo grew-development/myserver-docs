@@ -90,3 +90,4 @@ I only configured IPv4 you can also setup it for IPv6 if needed
 
 
 ## 3. Install OPNsense (my Firewall)
+Refere to [Opnsense Installation](./proxmox/opnsense/SETUP.md)
