@@ -34,10 +34,10 @@ I host my server at [Hetzner.com](https://hetzner.com) and so far I am very happ
     * Intel Core i7-6700
 <br><br>
 * RAM:
-    * 2x SSD SATA 512GB
+    * 2x RAM 16384 MB DDR4
 <br><br>
 * Drives:
-    * 2x RAM 16384 MB DDR4
+    * 2x SSD SATA 512 GB
 <br><br>
 * Location:
     *  FSN1-DC11
