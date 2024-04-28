@@ -216,6 +216,15 @@ Answer this question with yes
 Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
 ```
 
+If you receive the error message **"WARNING: UNPROTECTED PRIVATE KEY FILE!"** then you have to carry out the following steps in this video to continue.
+
+[To the video](https://youtu.be/OTwEfZP1nb8)
+
+Now do the previous step again. Enter the following command:
+```
+ssh -L 443:10.10.10.1:443 root@yourip -i <PATH_TO_YOUR_SSH_KEY>
+```
+
 #### Via Putty
 Open Putty.exe and type your IP address. Before connecting, add the tunnel we need.
 * Go to Connection > SSH > Tunnels
