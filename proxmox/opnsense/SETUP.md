@@ -8,6 +8,7 @@ Table of contents
     * <a href="#network-device-settingvalues">Network Device Settingvalues</a>
     * <a href="#setup-trunks">Setup Trunks</a>
     * <a href="#setup-start-at-boot">Setup "Start at boot"</a>
+4. <a href="#4-start-the-vm-and-install-opnsense">Start the VM and Install OPNsense</a>
 
 ## 1. Downloading OPNsense ISO
 * Go to `https://opnsense.org/download/`
@@ -101,6 +102,34 @@ net1: virtio=92:39:CF:F0:F9:A8,bridge=vmbr1,firewall=1,queues=8,tag=100,trunks=1
 ### Setup "Start at boot"
 As a final step, if you didn't specify it during installation, you'll want to make sure that "Start at boot" is checked in the VM options.<br>
 Otherwise, opnsense will not start when the server restarts.
+<br><br><br>
+
+
+## 4. Start the VM and Install OPNsense
+If you did everything correct you should be able to startup the VM.<br>
+Go to the `console-tab` to view the screen of opnsense.<br>
+Click “Start Now”
+
+Wait till the opnsense installer promst you with a login.
+
+You should then be able to login as `installer` and password `opnsense`.
+
+Start by configuring your keymap. And then continue.<br>
+I use the German-Keymap.
+
+Next you have to choose how you want to install opnsense.<br>
+I used ZFS but you can choose what you like.
+
+After that I used the stripe installer,<br>
+because my proxmox has already raid so I don't need raid here anymore.
+
+Next select your drive with spacebar and press enter and choose Yes to install opnsense.<br>
+Here you will be asked if you need to be sure that the installation is required. **Confirm this with yes**
+
+After that you can choose a secure root password.<br>
+**Remember that password!**
+
+Then you can finish the installation.
 <br><br><br>
 
 
