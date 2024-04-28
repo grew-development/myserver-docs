@@ -24,20 +24,23 @@ As soon as the console is opened and login with "root@rescue", than write `insta
 
 In the install config I only **changed the hostname to proxmox.mydomain.com**. I also changed the disk size, because by default the config does not set the partition sized right. I assigned as much as possible and also a bit of swap.
 
-**Exaple:**<br>
-´´´
+**Exaple:**
+```
 HOSTNAME proxmox.grew-development.de
-´´´<br>
+```
+<br>
 
 I also changed the disk size, because by default the config does not set the partition sized right. I assigned as much as possible and also a bit of swap.
 
-**Exaple:**<br>
-´´´
+**Exaple:**
+```
 LV  vg0 root    /       ext3    460GiB
 LV  vg0 swap    swap    ext3    12GiB 
-´´´<br>
+```
+<br>
 
-Also confirm the next two confirmations.
+Save (F2) and Quit (F10) the configuration file.
+Also confirm the next two confirmations and wait until the installation is finished.
 
 If you follow this the `installimage` script will automatically install proxmox with RAID. And will setup all basic configs to get started on its own.
 After installation the server will restart and proxmox will then be accessable via port 8006 on your IP4-Address.
@@ -45,4 +48,45 @@ After installation the server will restart and proxmox will then be accessable v
 
 
 ## 2. Setting Up Ethernet Interfaces and Switches
+After restarting the server, open your browser and go to the URL `yourIP4:8006`.
 
+> [!NOTE]
+> You may have to accept the risk, as your SSL certificate is currently Self Signed and the browser just doesn't trust them by default.
+
+But first you should set your password via SSH console.<br>
+* open putty.exe and log in.
+* enter `passwd` in the console.
+
+I wanted to use VLANs on my server to be able to seperate everything as much as possible even if its maby a bit over the top. I started by configuring a vmbr0 bridge for WAN and internet access for the opnsense later. I also added a vmbr1 bridge for the VLANs later. I used a ovs bridge which you have to install first.
+
+You can now carry out the following steps from your proxmox shell which you can access in the proxmox webui or<br>
+in the Putty Console.
+
+```
+apt update
+apt upgrade
+apt install openvswitch-switch
+```
+
+If you want to copy my config look her [/etc/network/interfaces]. There you will find my exact config to copy.<br>
+But remember the values you read beforehand<br>
+You will have to adjust your ip4 and gateway to the ones given to you from proxmox.<br>
+To copy this config just use `vim` or `nano`
+After that you will need to restart the server.
+
+```
+nano /etc/network/interfaces -y
+reboot
+```
+
+> [!CAUTION]
+> MAKE SURE THE VALUES ARE CORRECT OTHERWISE YOU WILL NOT REACH THE SERVER ON THE IP ANYMORE<br>
+> (HETZNER RESCUE MODE TO YOUR HELP)
+
+### What did i configure?
+All Requests to the server except on port 22(SSH) and 8006(proxmox) will get redirected to the opnsense (static IP).<br>
+I only configured IPv4 you can also setup it for IPv6 if needed
+
+
+
+## 3. Install OPNsense (my Firewall)
