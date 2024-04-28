@@ -5,6 +5,7 @@ Table of contents
 2. <a href="#2-creating-ct">Creating CT</a>
     * <a href="#ct-settingvalues">CT Settingvalues</a>
 3. <a href="#3-post-create">Post-Create</a>
+4. <a href="#4-start-the-ct-and-install-docker">Start the CT and Install Docker</a>
 <br><br><br>
 
 

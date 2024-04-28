@@ -24,6 +24,9 @@ Table of contents
         * <a href="#create-alias">Create Alias</a>
         * <a href="#add-the-rule">Add the Rule</a>
     * <a href="#allowing-access-to-local-ips-rfc1918--port-redirect--nat">Allowing Access to local IPs (RFC1918) / Port Redirect / NAT</a>
+7. <a href="#7-configurate-the-access-about-proxmoxyouripde">Configurate the Access about proxmox.yourip.de</a>
+    * <a href="#create-subrecord">Create Subrecord</a>
+    * <a href="#edit-opnsense-settings">Edit OPNsense-Settings</a>
 <br><br><br>
 
 
@@ -429,3 +432,34 @@ My Example: Proxy -> Opnsense
 * Redirect Target IP: 127.0.0.1
 * Redirect Target Port: Your Opnsense WebPort (Example: 9443)
 ```
+<br><br><br>
+
+
+## 7. Configurate the Access about proxmox.yourip.de
+We now create access via the subdomain of your IP.<br>
+It should be said that you should first create a subrecord with your domain provider.
+<br><br>
+
+### Create Subrecord
+Go to your Domainprovider and create a A-Record with your subdomain.<br>
+In my example it looks like this:
+```
+Subdomain:      proxmox
+TTL:            3600
+RR-Type:        A
+Prio:           0
+Value:          my Server IP
+```
+<br><br>
+
+### Edit OPNsense-Settings
+* Go to "System > Settings > Administration"
+* Change the "TCP Port" to 9443 (I change this to the 9443 port so that I don't have connection problems with other ports later.)
+* Write in the "Alternate Hostnames" your subdomain: `opnsense.yourip.de`
+* Safe and Apply Changes
+
+> [!WARNING]
+> From now on you can only reach your OPNsense via proxmox.yourip.de:9443
+
+> [!NOTE]
+> From here on I'll use Chrome for Proxmox because Firefox has problems with the subdomain and its port.
