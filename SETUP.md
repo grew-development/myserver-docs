@@ -106,5 +106,5 @@ Refere to [Opnsense Installation](./proxmox/opnsense/SETUP.md)
 
 
 ## 4. Install and Setup Docker
-Refere to [Docker Installation](./proxmox/focker/SETUP.md)
+Refere to [Docker Installation](./proxmox/docker/SETUP.md)
 <br><br><br>
