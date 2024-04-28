@@ -5,7 +5,7 @@ Table of contents
 1. <a href="#1-install-proxmox">Install Proxmox</a>
 2. <a href="#2-setting-up-ethernet-interfaces-and-switches">Setting Up Ethernet Interfaces and Switches</a>
     * <a href="#what-did-i-configure">What did i configure?</a>
-3. <a href="#3-install-opnsense-my-firewall">Install OPNsense (my Firewall)</a>
+3. <a href="#3-install-and-setup-opnsense-my-firewall">Install and Setup OPNsense (my Firewall)</a>
 <br><br><br>
 
 
@@ -22,7 +22,7 @@ Start this mode as follows:
     * Enter your path to the private SSH key (Connection > SSH > Auth > Credentails)
 6. As soon as the console is opened, it asks for a user name "Login as:". Enter the user `"root"` here
 7. You received the password from Hetzner in the Rescu window. Copy it now.
-
+<br><br><br>
 
 
 ## 1. Install Proxmox
@@ -53,7 +53,7 @@ Also confirm the next two confirmations and wait until the installation is finis
 
 If you follow this the `installimage` script will automatically install proxmox with RAID. And will setup all basic configs to get started on its own.
 After installation the server will restart and proxmox will then be accessable via port 8006 on your IP4-Address.
-
+<br><br><br>
 
 
 ## 2. Setting Up Ethernet Interfaces and Switches
@@ -91,12 +91,15 @@ reboot
 > [!CAUTION]
 > MAKE SURE THE VALUES ARE CORRECT OTHERWISE YOU WILL NOT REACH THE SERVER ON THE IP ANYMORE<br>
 > (HETZNER RESCUE MODE TO YOUR HELP)
+<br><br>
 
 ### What did i configure?
 All Requests to the server except on port 22(SSH) and 8006(proxmox) will get redirected to the opnsense (static IP).<br>
 I only configured IPv4 you can also setup it for IPv6 if needed
+<br><br><br>
 
 
-
-## 3. Install OPNsense (my Firewall)
+## 3. Install and Setup OPNsense (my Firewall)
 Refere to [Opnsense Installation](./proxmox/opnsense/SETUP.md)
+<br><br><br>
+
