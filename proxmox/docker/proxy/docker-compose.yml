@@ -1,0 +1,24 @@
+services:
+  app:
+    image: jc21/nginx-proxy-manager:latest
+    restart: unless-stopped
+      - 80:80
+      - 81:81
+      - 443:443
+    volumes:
+      - ./data:/data
+      - ./letsencrypt:/etc/letsencrypt
+    networks:
+      vlan102_net:
+        ipv4_address: 10.1.2.2 # Your fixed IPv4 address for this container 
+networks:
+  vlan102_net: # Your individual network name
+    driver: ipvlan
+    driver_opts:
+      mode: l2
+      subnet: 10.1.2.0/24 # Your subnet from your VLAN or from your container to OPNsense
+      parent: vlan0.102 # A VLAN with ID 102 is automatically created here at a point in between on the vlan0 bridge
+    ipam:
+      config:
+        - subnet: 10.1.2.0/24 # Your subnet from your VLAN or from your container to OPNsense
+          gateway: 10.1.2.1 #Your Gateway from your VLAN or from your container to OPNsense

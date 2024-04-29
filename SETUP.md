@@ -109,3 +109,7 @@ Refere to [Docker Installation](./proxmox/docker/SETUP.md)
 
 <br><br>
 
+## 4. Install and Setup Proxy (in Docker)
+Refere to [Proxy Installation](./proxmox/docker/proxy/SETUP.md)
+
+<br><br>
