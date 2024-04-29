@@ -5,8 +5,8 @@ Table of contents
     * <a href="#server-provider">Server-Provider</a>
     * <a href="#serverhardware">Serverhardware</a>
 3. <a href="#3-start-with-the-installation">Start with the installation</a>
-<br><br><br>
 
+<br><br>
 
 # 1. Preface
 This repository contains all information and server configurations for my own dedicated server.
@@ -21,37 +21,45 @@ If you have any optimization ideas or suggestions for improvement, please feel f
 
 > [!WARNING]
 > This documentation is not suitable for all use cases and can therefore be adapted or modified according to your needs.
-<br><br><br>
 
+<br><br>
 
 # 2. Server Hardware Components: A Breakdown of My Dedicated Server
 ### Server-Provider
 [<img src="https://www.hetzner.com/_resources/themes/hetzner/images/logo/hetzner-logo.svg?m=1713188202" width="150px" hight="auto"></img>](https://hetzner.com)<br>
 I host my server at [Hetzner.com](https://hetzner.com) and so far I am very happy with the server provider.
-<br><br>
+
+<br>
+
 ### Serverhardware
 * CPU:
     * Intel Core i7-6700
-<br><br>
+
+
 * RAM:
     * 2x RAM 16384 MB DDR4
-<br><br>
+
+
 * Drives:
     * 2x SSD SATA 512 GB
-<br><br>
+
+
 * Location:
     *  FSN1-DC11
-<br><br>
+
+
 * Networkcard:
     * NIC 1 Gbit - Intel I219-LM
-<br><br>
+
+
 * Traffic:
     * unlimited
-<br><br>
+
+
 * Operating system
     * Debian 11: Codename "Bullseye"
-<br><br><br>
 
+<br><br>
 
 # 3. Start with the installation
 For detailed instructions on how to replicate this setup, please refer to [SETUP.md](SETUP.md).

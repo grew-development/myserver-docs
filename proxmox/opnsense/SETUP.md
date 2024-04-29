@@ -18,17 +18,17 @@ Table of contents
     * <a href="#running-and-setup-wizzard">Running and Setup Wizzard</a>
     * <a href="#installing-plugins">Installing Plugins</a>
 6. <a href="#6-adding-vlans">Adding VLAN's</a>
-    * <a href="#create-a-new-vlan">Create a new VLAN</a>
-    * <a href="#adding-and-enable-of-the-new-interface">Adding and enable of the new interface</a>
+    * <a href="#create-a-new-vlan-generel-instructions">Create a new VLAN (Generel instructions)</a>
+    * <a href="#adding-and-enable-of-the-new-interface-generel-instructions">Adding and enable of the new interface (Generel instructions)</a>
     * <a href="#allowing-internet-access">Allowing Internet Access</a>
         * <a href="#create-alias">Create Alias</a>
-        * <a href="#add-the-rule">Add the Rule</a>
-    * <a href="#allowing-access-to-local-ips-rfc1918--port-redirect--nat">Allowing Access to local IPs (RFC1918) / Port Redirect / NAT</a>
-7. <a href="#7-configurate-the-access-about-proxmoxyouripde">Configurate the Access about proxmox.yourip.de</a>
-    * <a href="#create-subrecord">Create Subrecord</a>
+        * <a href="#add-the-rule-rfc1918">Add the Rule RFC1918</a>
+    * <a href="#allowing-access-to-other-vlans--nat-generel-instructions">Allowing Access to other VLANs / NAT (Generel instructions)</a>
+7. <a href="#7-configurate-the-access-about-opnsenseyourdomainde">Configurate the Access about opnsense.yourdomain.de</a>
+    * <a href="#create-dns-record">Create DNS Record</a>
     * <a href="#edit-opnsense-settings">Edit OPNsense-Settings</a>
-<br><br><br>
 
+<br><br>
 
 ## 1. Downloading OPNsense ISO
 * Go to `https://opnsense.org/download/`
@@ -36,8 +36,6 @@ Table of contents
 * Select the image type to `dvd`
 * Search your nearest and the best Mirror Location (my location: Germany/LeaseWeb)
 * Make a right click on the Download-button and copy the Link-Address
-
-<br>
 
 Now follow the steps below to download and unzip the ISO file
 You can now carry out the following steps from your proxmox shell which you can access in the proxmox webui
@@ -50,8 +48,8 @@ If the archive with the ending .bz2 still exists, you should delete it
 ```
 rm -r <YOUR_FILENAME.bz2> 
 ```
-<br><br><br>
 
+<br><br>
 
 ## 2. Creating VM (Virtual Maschine)
 Start by creating a new VM in proxmox.<br>
@@ -63,7 +61,8 @@ I left all values that were not specified as they were or were not specified at 
 
 > [!NOTE]
 > Activate Advanced Mode at the bottom of the window
-<br><br>
+
+<br>
 
 ### VM Settingvalues
 * General:
@@ -93,20 +92,22 @@ I left all values that were not specified as they were or were not specified at 
 
 After creating the VM we will add the vlan network aswell.
 Now confirm the whole thing in the `Confirm area` and click on the `finish` button.
-<br><br><br>
 
+<br><br>
 
 ## 3. Post-Create
 We will need to add the vlan network now aswell.<br>
 For that you will need to head to the Hardware Section of your opnsense VM in the Proxmox Web Interface.<br>
 Click on "Add" and choose "Network Device" to create a new network device.
-<br><br>
+
+<br>
 
 ### Network Device Settingvalues
 * Bridge:                  vmbr1 (VLAN-Network)
 * VLAN Tag:                100 (The same as the VM ID)
 * Multiqueue:              8 (For better performance)
-<br><br>
+
+<br>
 
 ### Setup Trunks
 Now we also need to tell Proxmox, that Opnsense acts as a trunk in the VLAN-NET. (If you don't know what a trunk is look it up!)
@@ -121,13 +122,14 @@ Go to the line of net1 and add `trunks=1-4095`. The line should then look someth
 ```
 net1: virtio=92:39:CF:F0:F9:A8,bridge=vmbr1,firewall=1,queues=8,tag=100,trunks=1-4095
 ```
-<br><br>
+
+<br>
 
 ### Setup "Start at boot"
 As a final step, if you didn't specify it during installation, you'll want to make sure that "Start at boot" is checked in the VM options.<br>
 Otherwise, opnsense will not start when the server restarts.
-<br><br><br>
 
+<br><br>
 
 ## 4. Start the VM and Install OPNsense
 If you did everything correct you should be able to startup the VM.<br>
@@ -154,8 +156,8 @@ After that you can choose a secure root password.<br>
 **Remember that password!**
 
 Then you can finish the installation.
-<br><br><br>
 
+<br><br>
 
 ## 5. Post-Install
 ### Removing Install ISO
@@ -168,7 +170,8 @@ shutdown from the console. You can do so by choosing option 5.
 
 After that, you can go to the hardware and remove the installation ISO from the CD/DVD Drive and<br>
 then restart the VM for the next steps.
-<br><br>
+
+<br>
 
 ### Configuring WAN for OPNsense
 By default Opnsense will try to setup the WAN with some default values.<br>
@@ -201,7 +204,8 @@ I use the following values within the setting:
 * WebUI HTTPS -> HTTP: No (HTTPS better)
 * Certificate: Yes (self signed tho)
 * Restore defaults: Yes
-<br><br>
+
+<br>
 
 ### Accessing WebUI
 You successfully configured opnsense.<br>
@@ -210,7 +214,8 @@ you will see that the login will not work because the IP is not whitelisted.
 
 You can access it via a ssh tunnel tho.<br>
 `ssh -L 443:10.10.10.1:443 root@yourip` You will then be able to access it with https://localhost on your machine and login into opnsense.
-<br><br>
+
+<br>
 
 #### Via PowerShell
 Open PowerShell (not as Administrator) and enter the following command: 
@@ -244,7 +249,8 @@ Now do the previous step again. Enter the following command:
 ```
 ssh -L 443:10.10.10.1:443 root@yourip -i <PATH_TO_YOUR_SSH_KEY>
 ```
-<br><br>
+
+<br>
 
 #### Via Putty
 Open Putty.exe and type your IP address. Before connecting, add the tunnel we need.
@@ -256,7 +262,8 @@ Open Putty.exe and type your IP address. Before connecting, add the tunnel we ne
 > [!TIP]
 > I did the same for HTTP too.<br>
 > i.e. port 80 added.
-<br><br>
+
+<br>
 
 ### Running and Setup Wizzard
 If you have entered everything correctly, you can now connect via `https://localhost` in your Browser. To setup everything important I recommend running the setup wizard. It will configure some important things needed for further configuration
@@ -278,7 +285,8 @@ On the next page you can also just hit next, because we will configure vlans not
 On the next page you can change your root password again if you want to.
 
 After the wizzard finishes it will reload.
-<br><br>
+
+<br>
 
 #### Installing Plugins
 As already mentioned i would suggest installing the qemu-agent to allow proxmox qemu to communicate with the VM on when to restart or stop.
@@ -301,8 +309,8 @@ If not manually start it.
 
 Congratulations you have now installed opnsense on your server and<br>
 configured the necessary things for further use!
-<br><br><br>
 
+<br><br>
 
 ## 6. Adding VLAN's
 > [!CAUTION]
@@ -315,12 +323,14 @@ configured the necessary things for further use!
 > 
 > When disabled you should be able to access it via ssh port tunnel. But after each apply in the OPNSense WebUI it will enable again.
 > Also the VLANs wont have Internet when its disabled and all NAT rules wont apply which should make sense.
+> **After installing the proxy, this message disappears**.
 
 Every time you want to split a new service into a new “network”, you need to create a VLAN.<br>
 In my setup, I used VLANs everywhere wherever possible. I got this procedure as a tip from [@Redacks](https://github.com/redacks).
-<br><br>
 
-### Create a new VLAN
+<br>
+
+### Create a new VLAN (Generel instructions)
 * Got to "Interfaces > Other Types > VLAN"
 * Add VLAN by clicking the plus-button
 * Enter the following values
@@ -332,65 +342,29 @@ In my setup, I used VLANs everywhere wherever possible. I got this procedure as 
 
 My Example
 ```
-Device: vlan0.102
+Device: vlan0.101
 Parent: vtnet1
-VLAN tag: 102
-Description: 102_Proxy
+VLAN tag: 101
+Description: 101_Docker
 ```
-<br><br>
 
-### Adding and enable of the new interface
+<br>
+
+### Adding and enable of the new interface (Generel instructions)
 * Go to "Interfaces > Assignments"
 * Select your new VLAN in "Assign a new interface" you just create
 * Provide a description (Use the same description as above - Example: 102_Proxy)
 * Go to the VLAN tab in the Interfaces options
 * Enable the Interface
 * Select the "IPv4 Configuration Type" from "none" to "Static IPv4"
-* Enter the IP address for Proxmox under “Static IPv4 configuration” (Example: 10.1.2.1)
+* Enter the IP address for the Proxmox Gateway under “Static IPv4 configuration” (Example Docker: 10.1.1.1)
 * Choose your Subnet to 24
 * Hit Safe and Apply changes
 * Run the Preservation of caution under <a href="#6-adding-vlans">Adding VLANs</a>
-<br><br>
 
-### Allowing Internet Access
-#### Create Alias
-Under “Firewall > Aliases” create an “RFC1918” alias.<br>
-RFC1918 is all local network addresses. It should be of type Networks
-* Add a new alias by clicking the plus-button
-* Enter the following values
-    * Name:         RFC1918
-    * Type:         Host(s)
-    * Categories:   none<br>
-    You could create your categories beforehand under "Firewall > Categories" and insert them here.<br>
-    But I'll do that at a later date
-    * Content:      (Select all networks that start with __ followed by the name)
-    * Description:  "Collection of all private IP addresses"
-* Hit Save and Apply
-> [!NOTE]
-> WHEN ADDING A NEW VLAN MAKE SURE TO UPDATE RFC1918
+<br>
 
-> [!NOTE]
-> I have also added further aliases here. Including for the upcoming VLANS and their IP addresses.<br>
-> I took Davice as the name and entered the IP address of the respective device under Content
-<br><br>
-
-#### Add the Rule
-We will use RFC1918 to configure firewall rules for internet access. If you want to give internet access to a vlan but still restrict access to all other internal IPs you can do that with the help of a firewall rule that accepts all connections except if they target RFC1918.
-
-* Go to "Firewall > Rules"
-* Select the VLAN you want to grant internet access
-* Create a new rule if it doesnt already exist by hitting the plus.
-
-We want to allow everything except if the destination is RFC1918.
-
-* Select RFC1918 as a destination
-* Enable Destination / Invert.
-* Select the Category (optional)
-* Safe and Apply Changes
-* Run the Preservation of caution under <a href="#6-adding-vlans">Adding VLANs</a>
-<br><br>
-
-### Allowing Access to local IPs (RFC1918) / Port Redirect / NAT
+### Allowing Access to other VLANs / NAT (Generel instructions)
 > [!NOTE]
 > If you want to give a certain VLAN access to another device in a different VLAN<br>
 > NAT is your best friend.
@@ -413,36 +387,59 @@ You can create a NAT Rule in "Firewall > NAT > Port Forward".
 * Safe and Apply Changes (Complete this step once you have added all the rules)
 * Run the Preservation of caution under <a href="#6-adding-vlans">Adding VLANs</a>
 
-My Example: Proxy -> Proxmox 
-```
-* Interface: Proxy VLAN
-* Destination: 10.10.10.0 / 31
-* Destination Port from: (Other) / 8006
-* Destination Port to: (Other) / 8006
-* Redirect Target IP: 10.10.10.0
-* Redirect Target Port: 8006
-```
+<br>
 
-My Example: Proxy -> Opnsense
-```
-* Interface: Proxy VLAN
-* Destination: VLAN Address
-* Destination Port from: Your Opnsense WebPort (Example: 9443)
-* Destination Port to: Your Opnsense WebPort (Example: 9443)
-* Redirect Target IP: 127.0.0.1
-* Redirect Target Port: Your Opnsense WebPort (Example: 9443)
-```
-<br><br><br>
+### Allowing Internet Access
+#### Create Alias
+Under “Firewall > Aliases” create an “RFC1918” alias.<br>
+RFC1918 is all local network addresses. It should be of type Networks
+* Add a new alias by clicking the plus-button
+* Enter the following values
+    * Name:         RFC1918
+    * Type:         Host(s)
+    * Categories:   none<br>
+    You could create your categories beforehand under "Firewall > Categories" and insert them here.<br>
+    But I'll do that at a later date
+    * Content:      (Select all networks that start with __ followed by the name)
+    * Description:  "Collection of all private IP addresses"
+* Hit Save and Apply
+> [!NOTE]
+> WHEN ADDING A NEW VLAN MAKE SURE TO UPDATE RFC1918
 
+> [!NOTE]
+> I have also added further aliases here. Including for the upcoming VLANS and their IP addresses.<br>
+> I took Davice as the name and entered the IP address of the respective device under Content
 
-## 7. Configurate the Access about proxmox.yourip.de
+<br>
+
+#### Add the Rule RFC1918
+We will use RFC1918 to configure firewall rules for internet access. If you want to give internet access to a vlan but still restrict access to all other internal IPs you can do that with the help of a firewall rule that accepts all connections except if they target RFC1918.
+
+* Go to "Firewall > Rules"
+* Select the VLAN you want to grant internet access
+* Create a new rule if it doesnt already exist by hitting the plus.
+
+We want to allow everything except if the destination is RFC1918.
+
+* Select RFC1918 as a destination
+* Enable Destination / Invert.
+* Select the Category (optional)
+* Safe and Apply Changes
+* Run the Preservation of caution under <a href="#6-adding-vlans">Adding VLANs</a>
+
+<br>
+
+## 7. Configurate the Access about opnsense.yourdomain.de
 We now create access via the subdomain of your IP.<br>
 It should be said that you should first create a subrecord with your domain provider.
-<br><br>
 
-### Create Subrecord
-Go to your Domainprovider and create a A-Record with your subdomain.<br>
-In my example it looks like this:
+<br>
+
+### Create DNS-Record
+Go to your Domainprovider and create a A-Record on your Domain.<br>
+In my example it looks like this for the domain opnsense.grew-development.de:
+
+I create an A record for my domain Grew-Development.de with this data:
 ```
 Subdomain:      proxmox
 TTL:            3600
@@ -450,16 +447,17 @@ RR-Type:        A
 Prio:           0
 Value:          my Server IP
 ```
-<br><br>
+
+<br>
 
 ### Edit OPNsense-Settings
 * Go to "System > Settings > Administration"
 * Change the "TCP Port" to 9443 (I change this to the 9443 port so that I don't have connection problems with other ports later.)
-* Write in the "Alternate Hostnames" your subdomain: `opnsense.yourip.de`
+* Write in the "Alternate Hostnames" your subdomain: `opnsense.yourdomain.de`
 * Safe and Apply Changes
 
 > [!WARNING]
-> From now on you can only reach your OPNsense via proxmox.yourip.de:9443<br>
+> From now on you can only reach your OPNsense via opnsense.yourdomain.de:9443<br>
 > Also make sure in advance that you are forwarding your NAT firewall to the correct port.
 
 > [!NOTE]

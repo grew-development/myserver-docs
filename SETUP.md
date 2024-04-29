@@ -7,8 +7,8 @@ Table of contents
     * <a href="#what-did-i-configure">What did i configure?</a>
 3. <a href="#3-install-and-setup-opnsense-my-firewall">Install and Setup OPNsense (my Firewall)</a>
 3. <a href="#4-install-and-setup-docker">Install and Setup Docker</a>
-<br><br><br>
 
+<br><br>
 
 ## 0. Start the Rescue-Mode
 For the first step of my (new) installation I use the `Rescue-Mode` from [Hetzner.com](https://hetzner.com).<br>
@@ -23,8 +23,8 @@ Start this mode as follows:
     * Enter your path to the private SSH key (Connection > SSH > Auth > Credentails)
 6. As soon as the console is opened, it asks for a user name "Login as:". Enter the user `"root"` here
 7. You received the password from Hetzner in the Rescu window. Copy it now.
-<br><br><br>
 
+<br><br>
 
 ## 1. Install Proxmox
 To install Proxmox on my hetzner server, I used the `installimage` Script provided by hetzner.com<br>
@@ -38,7 +38,6 @@ In the install config I only **changed the hostname to proxmox.mydomain.com**. I
 ```
 HOSTNAME proxmox.grew-development.de
 ```
-<br>
 
 I also changed the disk size, because by default the config does not set the partition sized right. I assigned as much as possible and also a bit of swap.
 
@@ -47,15 +46,14 @@ I also changed the disk size, because by default the config does not set the par
 LV  vg0 root    /       ext3    460GiB
 LV  vg0 swap    swap    ext3    12GiB 
 ```
-<br>
 
 Save (F2) and Quit (F10) the configuration file.
 Also confirm the next two confirmations and wait until the installation is finished.
 
 If you follow this the `installimage` script will automatically install proxmox with RAID. And will setup all basic configs to get started on its own.
 After installation the server will restart and proxmox will then be accessable via port 8006 on your IP4-Address.
-<br><br><br>
 
+<br><br>
 
 ## 2. Setting Up Ethernet Interfaces and Switches
 After restarting the server, open your browser and go to the URL `yourIP4:8006`.
@@ -92,19 +90,22 @@ reboot
 > [!CAUTION]
 > MAKE SURE THE VALUES ARE CORRECT OTHERWISE YOU WILL NOT REACH THE SERVER ON THE IP ANYMORE<br>
 > (HETZNER RESCUE MODE TO YOUR HELP)
-<br><br>
+
+<br>
 
 ### What did i configure?
 All Requests to the server except on port 22(SSH) and 8006(proxmox) will get redirected to the opnsense (static IP).<br>
 I only configured IPv4 you can also setup it for IPv6 if needed
-<br><br><br>
 
+<br><br>
 
 ## 3. Install and Setup OPNsense (my Firewall)
 Refere to [Opnsense Installation](./proxmox/opnsense/SETUP.md)
-<br><br><br>
 
+<br><br>
 
 ## 4. Install and Setup Docker
 Refere to [Docker Installation](./proxmox/docker/SETUP.md)
-<br><br><br>
+
+<br><br>
+
