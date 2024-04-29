@@ -9,7 +9,7 @@ services:
       - ./data:/data
       - ./letsencrypt:/etc/letsencrypt
     networks:
-      vlan102_net:
+      vlan102_net: # Your networkname
         ipv4_address: 10.1.2.2 # Your fixed IPv4 address for this container 
 networks:
   vlan102_net: # Your individual network name

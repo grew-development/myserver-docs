@@ -445,7 +445,7 @@ Subdomain:      proxmox
 TTL:            3600
 RR-Type:        A
 Prio:           0
-Value:          my Server IP
+Value:          your Server  IPv4 
 ```
 
 <br>

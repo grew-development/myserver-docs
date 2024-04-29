@@ -1,0 +1,26 @@
+services:
+  dockge:
+    image: louislam/dockge:1
+    restart: unless-stopped
+    ports:
+      - 5001:5001
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./data:/app/data
+      - /opt/stacks:/opt/stacks
+    environment:
+      - DOCKGE_STACKS_DIR=/opt/stacks
+    networks:
+      vlan103_net: # Your networkname
+        ipv4_address: 10.1.3.2 # Your fixed IPv4 address for this container 
+networks:
+  vlan103_net: # Your individual network name
+    driver: ipvlan
+    driver_opts:
+      mode: l2
+      subnet: 10.1.3.0/24 # Your subnet from your VLAN or from your container to OPNsense
+      parent: vlan0.103 # A VLAN with ID 103 is automatically created here at a point in between on the vlan0 bridge
+    ipam:
+      config:
+        - subnet: 10.1.3.0/24 # Your subnet from your VLAN or from your container to OPNsense
+          gateway: 10.1.3.1 #Your Gateway from your VLAN or from your container to OPNsense

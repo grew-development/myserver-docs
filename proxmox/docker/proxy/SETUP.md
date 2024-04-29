@@ -26,7 +26,7 @@ We create a new folder called “nginx-proxy-manager” in /opt/stacks.
 ```
 mkdir /opt/stacks/nginx-proxy-manager
 ```
-We will now create our docker-compose.yml file in it. We open this straight away with the command “nano” or “vin”
+We will now create our docker-compose.yml file in it. We open this straight away with the command “nano” or “vim”
 ```
 nano docker-compose.yml
 ```

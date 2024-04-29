@@ -6,7 +6,9 @@ Table of contents
 2. <a href="#2-setting-up-ethernet-interfaces-and-switches">Setting Up Ethernet Interfaces and Switches</a>
     * <a href="#what-did-i-configure">What did i configure?</a>
 3. <a href="#3-install-and-setup-opnsense-my-firewall">Install and Setup OPNsense (my Firewall)</a>
-3. <a href="#4-install-and-setup-docker">Install and Setup Docker</a>
+4. <a href="#4-install-and-setup-docker">Install and Setup Docker</a>
+5. <a href="#5-install-and-setup-proxy-in-docker">Install and Setup Proxy (in Docker)</a>
+6. <a href="#6-install-and-setup-dockge-in-docker">Install and Setup Dockge (in Docker)</a>
 
 <br><br>
 
@@ -109,7 +111,12 @@ Refere to [Docker Installation](./proxmox/docker/SETUP.md)
 
 <br><br>
 
-## 4. Install and Setup Proxy (in Docker)
+## 5. Install and Setup Proxy (in Docker)
 Refere to [Proxy Installation](./proxmox/docker/proxy/SETUP.md)
+
+<br><br>
+
+## 6. Install and Setup Dockge (in Docker)
+Refere to [Dockge Installation](./proxmox/docker/dockge/SETUP.md)
 
 <br><br>
