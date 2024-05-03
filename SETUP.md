@@ -116,7 +116,14 @@ Refere to [Proxy Installation](./proxmox/docker/proxy/SETUP.md)
 
 <br><br>
 
-## 6. Install and Setup Dockge (in Docker)
+## 6. Install and Setup Tailscale (my VPN-Service) !In Progress!
+Refere to [Tailscale Installation](./proxmox/tailscale/SETUP.md)
+
+<br><br>
+
+## 7. Install and Setup Dockge (in Docker)
 Refere to [Dockge Installation](./proxmox/docker/dockge/SETUP.md)
 
 <br><br>
+
+
