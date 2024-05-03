@@ -84,7 +84,7 @@ docker compose up -d
 ## 4. Connect to the web interface
 ### Create temporary firewall rule
 We would like to create a temporary firewall rule to access the WebUI via port 81.<br>
-To do this, first open opnsense via the browser: `opnsense.yourip.de`
+To do this, first open opnsense via the browser: `opnsense.yourdomain.de:9443`
 
 * Go to "Firewall > NAT > Port Forward"
 * Create a new NAT rule

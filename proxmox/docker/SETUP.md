@@ -7,9 +7,9 @@ Table of contents
 3. <a href="#3-post-create">Post-Create</a>
 4. <a href="#4-start-the-ct-and-install-docker">Start the CT and Install Docker</a>
 5. <a href="#5-installation-preparation-for-dockge">Installation preparation for Dockge</a>
-6. <a href="#6-configuring-trunks">Configuring Trunks</a>
-7. <a href="#7-network-for-docker-vlans">Network for Docker (VLAN's)</a>
+6. <a href="#6-network-for-docker-vlans">Network for Docker (VLAN's)</a>
     * <a href="#network-device-settingvalues">Network Device Settingvalues</a>
+7. <a href="#7-configuring-trunks">Configuring Trunks</a>
 
 <br><br>
 
@@ -64,7 +64,7 @@ I left all values that were not specified as they were or were not specified at 
     * SWAP:              6 GB
 
 > [!NOTE]
-> You must enter this value in MiB, i.e. 40.96 MiB for 40GB or 6144 MiB for 6 GB
+> You must enter this value in MiB, i.e. 40960 MiB for 40GB and 6144 MiB for 6 GB
 
 <br>
 
@@ -121,7 +121,24 @@ I also like to add it to my .bashrc with `nano ~/.bashrc` and adding `cd /opt/st
 
 <br><br>
 
-## 6. Configuring Trunks
+## 6. Network for Docker (VLAN's)
+We will also need to setup a VLAN Trunk.<br>
+That way we can later seperate all docker containers into their VLAN's.<br>
+For that we will need to add a new Network in the Proxmox WebUI.
+
+* Go into your proxmoy WebUI via `yourip:8006`
+* Go to "Proxmox > Docker CT > Network"
+* Click on "Add" and choose "Network Device" to create a new network device
+
+<br>
+
+### Network Device Settingvalues
+* Name:     vlan0 (way the vlans will later be named vlan0.102 internally for example. The same as in OPNSense)
+* Bridge:   vmbr1 (VLAN-Network)
+
+<br><br>
+
+## 7. Configuring Trunks
 You will have to add a new trunk each time you want to connect a new VLAN to the Docker CT.<br>
 For that its simmelar to the OPNSense setup.<br>
 run the Commands in the proxmox-shell. You can edit the config with `vim` or `nano`.
@@ -139,20 +156,3 @@ I added 102-104 and 110, 111 for now, because I will need them for sure.
 
 > [!CAUTION]
 > **MAKE SURE TO ADD NEW VLANS TO TRUNKS WHEN NEEDING A NEW VLAN**
-
-<br><br>
-
-## 7. Network for Docker (VLAN's)
-We will also need to setup a VLAN Trunk.<br>
-That way we can later seperate all docker containers into their VLAN's.<br>
-For that we will need to add a new Network in the Proxmox WebUI.
-
-* Go into your proxmoy WebUI via `yourip:8006`
-* Go to "Proxmox > Docker CT > Network"
-* Click on "Add" and choose "Network Device" to create a new network device
-
-<br>
-
-### Network Device Settingvalues
-* Name:     vlan0 (way the vlans will later be named vlan0.102 internally for example. The same as in OPNSense)
-* Bridge:   vmbr1 (VLAN-Network)
