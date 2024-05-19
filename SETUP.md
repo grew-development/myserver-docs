@@ -106,18 +106,18 @@ Refere to [Opnsense Installation](./proxmox/opnsense/SETUP.md)
 
 <br><br>
 
-## 4. Install and Setup Docker
+## 6. Install and Setup Tailscale (my VPN-Service)
+Refere to [Tailscale Installation](./proxmox/tailscale/SETUP.md)
+
+<br><br>
+
+## 4. Install and Setup Docker !EDITED!
 Refere to [Docker Installation](./proxmox/docker/SETUP.md)
 
 <br><br>
 
 ## 5. Install and Setup Proxy (in Docker)
 Refere to [Proxy Installation](./proxmox/docker/proxy/SETUP.md)
-
-<br><br>
-
-## 6. Install and Setup Tailscale (my VPN-Service) !In Progress!
-Refere to [Tailscale Installation](./proxmox/tailscale/SETUP.md)
 
 <br><br>
 

@@ -84,7 +84,7 @@ I left all values that were not specified as they were or were not specified at 
 * Memory:
     * 3GB-6GB (depends on the network traffic and rules and plugins)
 > [!NOTE]
-> You must enter this value in MiB, i.e. 8192 MiB for 4GB
+> You must enter this value in MiB, i.e. 8192 MiB for 8GB
 <br><br>
 * Network:
     * Bridge:            vmbr0 (WAN)
