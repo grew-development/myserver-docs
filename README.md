@@ -1,3 +1,9 @@
+> [!IMPORTANT]
+> This repository has been publicly archived! New documentation has been created and published.
+>
+> Open [Hetzner Server Instruction](https://github.com/grew-development/serverdocs)
+<br/>
+<br/>
 Table of contents
 
 1. <a href="#1-preface">Preface</a>
